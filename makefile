@@ -1,4 +1,10 @@
-SET_PYTHON:=PKW_python3=3.10.2_rel02
+# commands I ran to get the tools installed into /usr/local/bin:
+# sudo pip3 install pylint
+# sudo pip3 install pylint3
+# pip install --upgrade pip
+# sudo pip3 install black
+# sudo pip3 install coverage
+# sudo pip3 install pytest
 
 TEST_TARGETS:= test_format test_pylint test_pytest
 
@@ -6,21 +12,24 @@ TEST_TARGETS:= test_format test_pylint test_pytest
 
 test: $(TEST_TARGETS)
 
+# path to python3,black,isort,pylint tools
+BIN:=/usr/local/bin
 
 PY_FILES:=backend.py tests/test_backend.py
 test_pylint: $(PY_FILES)
-	pkw_pylint1.7.2 --rcfile ./.pylintrc $^
+	$(BIN)/pylint --rcfile ./.pylintrc $^
 
-test_pytest:
-	$(SET_PYTHON) coverage run -m pytest -v tests/test_backend.py 
-	$(SET_PYTHON) coverage html
-	$(SET_PYTHON) coverage report --fail-under 40
-
+test_pytest: $(PY_FILES)
+	COVERAGE_FILE=tests/.coverage $(BIN)/coverage run --source=. -m pytest -v tests/test_backend.py 
+	COVERAGE_FILE=tests/.coverage $(BIN)/coverage html
+	COVERAGE_FILE=tests/.coverage $(BIN)/coverage report --fail-under 90  # require 90% code coverage
+ 
 test_format: $(PY_FILES)
-	$(SET_PYTHON) black --check -l 120 -t py310 .
-	$(SET_PYTHON) isort --check -l 120 --profile black --force-sort-within-sections --py 310 .
+	$(BIN)/black --check -l 120 -t py310 .
+	$(BIN)/isort --check -l 120 --profile black --force-sort-within-sections --py 310 .
 
+# use this to autoformat (off by default) useful if make test_format fails
 format: $(PY_FILES)
-	$(SET_PYTHON) black -l 120 -t py310 .
-	$(SET_PYTHON) isort -l 120 --profile black --force-sort-within-sections --py 310 .
+	$(BIN)/black -l 120 -t py310 .
+	$(BIN)/isort -l 120 --profile black --force-sort-within-sections --py 310 .
 

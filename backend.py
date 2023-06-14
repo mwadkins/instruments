@@ -1,4 +1,5 @@
-#!/prj/qct/coredev/hexagon/sitelinks/arch/bin/pkw_python3.6.0
+#!/usr/local/bin/python3
+
 """
 A module for the backend database code
 
@@ -34,14 +35,14 @@ class BackendDb:
         self.dbfile = dbfile
         self.debug = debug
         self.create_tables()
-        logging.debug("sqlite db: " + self.dbfile)
+        logging.debug("sqlite db: %s", self.dbfile)
 
     def execute_stmt(self, stmt, many=None):
         """
         wrapper for executing sql statement
         """
         if self.debug:
-            logging.debug("execute_stmt: " + stmt)
+            logging.debug("execute_stmt: %s", stmt)
             if many:
                 logging.debug(many)
 
@@ -71,7 +72,7 @@ class BackendDb:
                     os.system(cmd)
                 sys.exit(1)
         conn.close()
-        logging.debug("Result: " + str(result))
+        logging.debug("Result: %s", str(result))
         return result
 
     def create_inventory_table(self):
@@ -193,7 +194,7 @@ class BackendDb:
 
         if not result:
             logging.error("No results found")
-            logging.error("sqlite3  " + self.dbfile)
+            logging.error("sqlite3  %s", self.dbfile)
             logging.error(stmt)
 
         return result

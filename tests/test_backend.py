@@ -1,4 +1,4 @@
-#!/prj/qct/coredev/hexagon/sitelinks/arch/bin/pkw_python3.6.0
+#!/usr/local/bin/python3
 """
 A module for the backend database code
 pytest will run all tests (functions that start w/ test_) in this module in order
@@ -39,7 +39,7 @@ def setup():
     debug = True
     dbfile = "test_basic.db"
     # start with a fresh db each time
-    utils.run_cmd(f"rm -rf {dbfile}")
+    utils.run_cmd("rm -rf " + dbfile)
     # pylint: disable=global-statement
     global BDB
     BDB = backend.BackendDb(dbfile, debug)
