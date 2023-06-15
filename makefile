@@ -13,7 +13,7 @@ TEST_TARGETS:= test_format test_pylint test_pytest
 test: $(TEST_TARGETS)
 
 # path to python3,black,isort,pylint tools
-BIN:=/usr/local/bin
+BIN:=/Users/landonreese/miniconda3/bin/black
 
 PY_FILES:=backend.py tests/test_backend.py
 test_pylint: $(PY_FILES)
